@@ -1,0 +1,6 @@
+interface:
+  display_name: "社会科学研究工作流"
+  short_description: "证据驱动的社会科学文献阅读、论文写作与完整研究流程"
+  default_prompt: "Use $social-science-research-workflow to diagnose my current research stage and produce the next evidence-grounded deliverable."
+policy:
+  allow_implicit_invocation: true
