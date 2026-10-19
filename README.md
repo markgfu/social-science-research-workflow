@@ -1,60 +1,135 @@
-# 社会科学研究工作流
+# 社会科学研究工作流 · 三技能合集
 
-一个面向社会科学研究的 Codex skill。根据当前研究阶段，处理文献发现、论文阅读、研究问题、学术写作、研究设计验证、汇报和研究训练，并保留可核验的证据与后续行动。
+一次安装三个互相配合的 Codex skill，覆盖研究阶段诊断、经济学文献综述，以及论文成稿与修改。三个 skill 的完整参考资料均包含在本仓库中。
 
-技能名称：`social-science-research-workflow`。
+## 三个 skill 如何分工
 
-## 能做什么
+| Skill | 职责 | 入口 |
+| --- | --- | --- |
+| `social-science-research-workflow` | 诊断研究阶段、确定下一步、统一证据门槛与作者规范 | [SKILL.md](skills/social-science-research-workflow/SKILL.md) |
+| `economics-literature-review` | 文献发现、筛选、全文提取、模型谱系、假设与机制比较、综述及证据审计 | [SKILL.md](skills/economics-literature-review/SKILL.md) |
+| `research-paper-writing` | 章节结构、段落衔接、主张与证据对齐、成稿修改及审稿检查 | [SKILL.md](skills/research-paper-writing/SKILL.md) |
+
+典型推进关系：
+
+```text
+工作流诊断当前研究阶段
+    → 经济学文献检索、精读与综合
+    → 人工审核核心证据
+    → 论文成稿与修改
+```
+
+写作技能与经济学文献技能共同读取工作流中的作者判断规范。三个目录需保持并列、保留原名；专项技能交接后，工作流的证据门槛和作者规范继续适用。
+
+写作技能的章节参考和示例主要来自 ML/CV/NLP 写作场景。用于社会科学或经济学时，应按研究问题、假设、数据、识别、机制和制度背景调整，不直接套用技术论文结构。
+
+## 一次安装完整合集
+
+### 推荐：将下面的请求复制给 Codex
+
+```text
+请使用 $skill-installer，从 GitHub 仓库
+markgfu/social-science-research-workflow
+一次安装以下三个路径中的全部技能：
+
+skills/social-science-research-workflow
+skills/economics-literature-review
+skills/research-paper-writing
+
+保持三个技能的目录名，并安装到同一个 skills 目录，
+以保留它们之间的相对引用。
+```
+
+安装完成后，在下一轮对话使用 `$social-science-research-workflow` 开始任务，也可以单独调用另外两个技能。
+
+### 命令行：一次调用安装三个 skill
+
+以下命令使用 Codex 自带的 `skill-installer` 和 Python，无需分别运行三次。
+
+Windows PowerShell：
+
+```powershell
+$codexDir = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME '.codex' }
+python (Join-Path $codexDir 'skills/.system/skill-installer/scripts/install-skill-from-github.py') --repo markgfu/social-science-research-workflow --path skills/social-science-research-workflow skills/economics-literature-review skills/research-paper-writing
+```
+
+macOS / Linux：
+
+```bash
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-installer/scripts/install-skill-from-github.py" --repo markgfu/social-science-research-workflow --path skills/social-science-research-workflow skills/economics-literature-review skills/research-paper-writing
+```
+
+### 手动安装
+
+下载仓库 ZIP 并解压，将仓库 `skills/` 下的三个完整文件夹复制到同一个 Codex 技能目录：
+
+- Windows：`%USERPROFILE%\.codex\skills\`
+- macOS / Linux：`~/.codex/skills/`
+- 设置了 `CODEX_HOME` 时：该目录下的 `skills/`
+
+最终目录结构应当是：
+
+```text
+skills/
+├── social-science-research-workflow/
+│   ├── SKILL.md
+│   ├── agents/
+│   └── references/
+├── economics-literature-review/
+│   ├── SKILL.md
+│   ├── agents/
+│   └── references/
+└── research-paper-writing/
+    ├── SKILL.md
+    ├── agents/
+    └── references/
+```
+
+不要把整个仓库嵌套进一个同名 skill 文件夹，也不要只复制三个 `SKILL.md`。
+
+### 已安装旧版或同名 skill
+
+本仓库已由“根目录是单个 skill”改为 `skills/` 下的三技能合集。原工作流的技能名称和调用方式保持不变，安装源路径改为 `skills/social-science-research-workflow`。
+
+安装器遇到已经存在的同名目录会停止。更新前，先将已有目录备份到技能目录之外，保留自己的修改，再安装这三个路径；或手动比较并合并文件。只补装缺失技能时，可以仅向安装器传入缺失的路径。
+
+## 工作流模式
 
 | 模式 | 适用任务 |
 | --- | --- |
-| `literature` | 制定检索范围、筛选文献、识别枢纽论文、追踪引文和检验候选缺口 |
-| `reading` | 速读初筛、全文精读、证据提取、来源笔记和范文分析 |
-| `writing` | 收敛研究问题，组织文献动机、背景、数据、研究设计和结果讨论 |
-| `validation` | 识别威胁、稳健性、异质性、机制及主张边界 |
+| `literature` | 检索范围、筛选、枢纽文献、引文追踪和候选缺口 |
+| `reading` | 速读初筛、全文精读、证据笔记和范文分析 |
+| `writing` | 研究问题、文献动机、背景、数据、设计与结果讨论 |
+| `validation` | 识别威胁、稳健性、异质性、机制与主张边界 |
 | `presentation` | 图表说明、研究汇报和研究求助材料 |
-| `training` | 用户明确要求时，制定训练计划并复盘 |
-| `full` | 从想法到论文的阶段推进；关键证据或设计变化时回退检查 |
-
-用户可以指定模式，也可以直接描述任务，由 skill 判断当前最需要推进的阶段。输出语言跟随用户。
-
-## 安装
-
-下载本仓库，将包含 `SKILL.md`、`agents/` 和 `references/` 的完整文件夹保存为：
-
-- Windows：`%USERPROFILE%\.codex\skills\social-science-research-workflow`
-- macOS / Linux：`~/.codex/skills/social-science-research-workflow`
-
-若使用了自定义 `CODEX_HOME`，将文件夹放入该目录下的 `skills/`。仓库根目录就是 skill 根目录，无需再嵌套一层同名文件夹。
-
-也可以将本仓库链接交给 Codex 的 `skill-installer`，要求安装仓库根目录中的 skill。
+| `training` | 明确要求时制定训练计划并复盘 |
+| `full` | 从想法到论文的阶段推进及回退检查 |
 
 ## 使用示例
 
-在 Codex 中使用 `$social-science-research-workflow` 调用。例如：
-
-```text
-使用 $social-science-research-workflow，进入 literature 模式。
-我的研究问题是地方环境治理中的政策执行差异。请先制定检索范围、
-纳入排除标准和首轮查询，保留检索记录，并把尚未核验的缺口标出来。
-```
-
-```text
-使用 $social-science-research-workflow，精读我提供的论文。
-区分作者主张和你的解释，为研究设计、主要发现和限制提供原文页码，
-未能核验的内容保持待核验状态。
-```
-
-```text
-使用 $social-science-research-workflow，检查我的结果讨论。
-先核对相关原文参照，再依据现有结果解释研究含义，
-保留引用和术语，删除没有证据支持的判断。
-```
+### 从研究想法开始
 
 ```text
 使用 $social-science-research-workflow，进入 full 模式。
-根据我现有的研究材料判断当前阶段，推进最能降低不确定性的下一步，
-并记录仍需人工审核的证据。
+我的研究方向是地方环境治理中的政策执行差异。
+根据我提供的材料判断当前阶段，推进最能降低不确定性的下一步，
+需要时使用已安装的经济学文献技能或写作技能。
+```
+
+### 专门做经济学文献综述
+
+```text
+使用 $economics-literature-review，梳理我提供的理论论文。
+比较各篇的前身模型、基准假设、假设变化、机制与结论，
+为主要判断保留原文锚点，未经人工审核的笔记标记为 waiting-review。
+```
+
+### 修改已有论文
+
+```text
+使用 $research-paper-writing，修改我提供的结果讨论。
+遵守共享的作者判断规范，保留引用和术语，
+依据已有结果解释研究含义，删除没有证据支持的判断。
 ```
 
 ## 证据与写作规则
@@ -63,36 +138,18 @@
 - **B 级证据**：核验正式摘要，只支持初筛和暂定描述。
 - **C 级证据**：元数据、检索结果或二手提及，只用于发现来源。
 - 区分来源主张、模型解释、跨文献综合和研究者推断。
-- AI 新建的来源笔记先标记为 `waiting-review`。核心跨文献综合与正式成稿要求相关笔记通过人工审核，达到 `accepted + A`。
+- AI 新建来源笔记先标记为 `waiting-review`。核心跨文献综合与正式成稿要求相关笔记经人工审核，达到 `accepted + A`。
 - 未核验的主张保留 `needs-verification`，未完成检索的候选缺口保留 `needs-search`。
-- 写作先明确问题、判断与依据；不虚构数据、引用、结果或研究缺口。写作性修改前，按任务检索并核对 AMJ、《求是》等真实原文参照。
+- 写作先明确问题、判断与依据；不虚构数据、引用、结果或研究缺口。写作性修改前，按任务检索并核对真实原文参照。
 
-完整规则见 [SKILL.md](SKILL.md) 和 [作者判断与证据规范](references/author-judgment-writing.md)。
+完整要求见 [工作流入口](skills/social-science-research-workflow/SKILL.md)、[作者判断与证据规范](skills/social-science-research-workflow/references/author-judgment-writing.md) 和 [经济学证据政策](skills/economics-literature-review/references/evidence-policy.md)。
 
-## 文件结构
+## 工具与格式支持
 
-```text
-social-science-research-workflow/
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-└── references/
-    ├── author-judgment-writing.md
-    ├── full-workflow.md
-    ├── literature-reading.md
-    ├── presentation-training.md
-    ├── source-map.md
-    └── writing-validation.md
-```
-
-`SKILL.md` 负责阶段诊断与路由；参考资料按任务加载。
-
-## 配套技能与工具
-
-本仓库包含上述工作流及参考资料。处理专门任务时，工作流会交接给 `economics-literature-review`、`research-paper-writing`，或 PDF、文档、表格、演示文稿等格式技能；这些配套技能需要另行安装。联网检索、全文访问与文件处理也取决于运行环境中可用的工具和访问权限。
+本合集包含完整的三个研究与写作 skill，不会自动安装软件、开通数据库权限或连接账户。联网检索、全文访问、Zotero/Obsidian 集成，以及 PDF、Word、表格和演示文稿的格式处理，需要运行环境中提供相应工具、权限或格式技能。已有材料的研究诊断与文字处理可按可用工具推进，缺失证据仍须明确标记。
 
 ## 来源
 
-研究流程主要依据陈硕《非此即彼：社会科学研究指南》的经审核章级笔记整理；作者判断与写作规范来自维护者直接制定的要求。来源位置、规范与工程化约束的区别见 [来源映射](references/source-map.md)。
+研究流程主要依据陈硕《非此即彼：社会科学研究指南》的经审核章级笔记整理；作者判断与写作规范来自维护者直接制定的要求。来源位置、规范与工程化约束的区别见 [来源映射](skills/social-science-research-workflow/references/source-map.md)。
 
-仓库不包含原书 PDF、OCR 全文或原始研究项目材料。参考资料中列出的书籍和论文，其权利归各自权利人所有。
+仓库不包含原书 PDF 或原始研究项目材料。写作技能包含参考笔记与论文写作示例；其中引用的书籍、论文和第三方材料，其权利归各自权利人所有。

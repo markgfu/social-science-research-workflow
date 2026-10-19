@@ -1,0 +1,6 @@
+interface:
+  display_name: "Economics Literature Review"
+  short_description: "用于经济学模型谱系综述的证据分级、综合写作和全过程审计"
+  default_prompt: "Use $economics-literature-review to run the next evidence-gated stage of my economics literature review."
+policy:
+  allow_implicit_invocation: true

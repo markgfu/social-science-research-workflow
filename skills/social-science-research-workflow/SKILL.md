@@ -71,8 +71,8 @@ description: Diagnose and execute evidence-grounded social-science research work
 
 ## 专用能力交接
 
-- 经济学文献谱系、检索审计或正式经济学综述：使用 `economics-literature-review`，保留本 skill 的阶段诊断与输出契约。
-- 证据集合已固定后的论文成稿或纯文字润色：使用 `research-paper-writing`；交接时保留本 skill 的证据门槛与作者规范，不默认附加提纲、段落角色标签或自检清单。
+- 经济学文献谱系、检索审计或正式经济学综述：使用 [economics-literature-review](../economics-literature-review/SKILL.md)，保留本 skill 的阶段诊断与输出契约。
+- 证据集合已固定后的论文成稿或纯文字润色：使用 [research-paper-writing](../research-paper-writing/SKILL.md)；交接时保留本 skill 的证据门槛与作者规范，不默认附加提纲、段落角色标签或自检清单。
 - PDF、文档、表格或演示文件需要格式级处理时，使用相应格式 skill；内容主张仍受这里的证据规则约束。
 
 ## 停止条件
